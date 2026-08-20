@@ -1,0 +1,32 @@
+{
+  "name": "companion-pet",
+  "version": "0.1.0",
+  "description": "陪伴小猫：DSH Web 界面内的浏览器端陪伴宠物插件。绿幕动画 + 本地规则交互（点击互动、深夜提醒、输入情绪检测），零 token 消耗。",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/dsh-host-webserver": "^0.1.0-rc.8"
+  }
+}
