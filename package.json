@@ -1,7 +1,7 @@
 {
-  "name": "companion-pet",
+  "name": "dsh-companion-cat",
   "version": "0.1.0",
-  "description": "陪伴小猫：DSH Web 界面内的浏览器端陪伴宠物插件。绿幕动画 + 本地规则交互（点击互动、深夜提醒、输入情绪检测），零 token 消耗。",
+  "description": "🐱 DSH 陪伴小猫：在 DeepSeek Harness 界面里养一只会呼吸、会撒娇、会陪你看代码的小猫。多猫皮肤、森林背景、跑马灯选猫、零 token 消耗。",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",
@@ -23,7 +23,16 @@
     }
   },
   "files": [
-    "lib"
+    "lib",
+    "assets"
+  ],
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "companion",
+    "pet",
+    "cat",
+    "desktop-pet"
   ],
   "license": "MIT",
   "peerDependencies": {
