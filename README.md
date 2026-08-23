@@ -8,18 +8,18 @@
 
 ## ✨ 它有什么本事
 
-### 🐾 六只小猫 · 3D 弧形选猫
+### 🐾 小猫图鉴
 
 <div align="center">
 
 | | | |
 |---|---|---|
-| <img src="assets/cats/orange/idle.gif" width="130" alt="橘橘" title="橘橘"> | <img src="assets/cats/white/idle.gif" width="130" alt="奶白" title="奶白"> | <img src="assets/cats/gray/idle.gif" width="130" alt="灰灰" title="灰灰"> |
+| <img src="assets/thumbs/orange.gif" width="130" alt="橘橘"> | <img src="assets/thumbs/white.gif" width="130" alt="奶白"> | <img src="assets/thumbs/gray.gif" width="130" alt="灰灰"> |
 | **橘橘** 🍊 · 元气 | **奶白** 🤍 · 温柔 | **灰灰** 🌫️ · 高冷 |
-| <img src="assets/cats/dark/idle.gif" width="130" alt="乌乌" title="乌乌"> | <img src="assets/cats/fold/idle.gif" width="130" alt="折折" title="折折"> | <img src="assets/cats/black/idle.gif" width="130" alt="墨墨" title="墨墨"> |
+| <img src="assets/thumbs/dark.gif" width="130" alt="乌乌"> | <img src="assets/thumbs/fold.gif" width="130" alt="折折"> | <img src="assets/thumbs/black.gif" width="130" alt="墨墨"> |
 | **乌乌** 🌙 · 神秘 | **折折** 🐾 · 乖巧 | **墨墨** 🖤 · 活泼 |
 
-*（都是会呼吸的动态 GIF，点开还会表演哦）*
+*（每只小猫都在呼吸的动态 GIF）*
 
 </div>
 
@@ -118,6 +118,7 @@ dsh-companion-cat/
 │       ├── white/            # 奶白（待机）
 │       ├── dark/             # 乌乌（待机）
 │       └── black/            # 墨墨（9 个动作，含点击高兴）
+│   └── thumbs/               # 图鉴用的小体积动态缩略图（1.5s 截取）
 └── lib/
     ├── index.js          # node 半：静态资源路由 + /companion-pet/api/balance
     └── client.js         # 浏览器半：小猫本体 + 全部功能
