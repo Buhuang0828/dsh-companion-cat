@@ -16,7 +16,7 @@
 |---|---|---|
 | <img src="assets/cats/orange/idle.gif" width="130" alt="橘橘"> | <img src="assets/cats/white/idle.gif" width="130" alt="奶白"> | <img src="assets/cats/gray/idle.gif" width="130" alt="灰灰"> |
 | **橘橘** 🍊 · 元气 | **奶白** 🤍 · 温柔 | **灰灰** 🌫️ · 高冷 |
-| <img src="assets/cats/dark/idle.gif" width="130" alt="乌乌"> | <img src="assets/cats/fold/idle.gif" width="130" alt="折折"> | <img src="assets/cats/black/idle.gif" width="130" alt="墨墨"> |
+| <img src="assets/cats/dark/idle.gif" width="130" alt="乌乌"> | <img src="assets/cats/fold/idle.gif" width="150" alt="折折"> | <img src="assets/cats/black/idle.gif" width="130" alt="墨墨"> |
 | **乌乌** 🌙 · 神秘 | **折折** 🐾 · 乖巧 | **墨墨** 🖤 · 活泼 |
 
 *（都是完整待机动画的动态 GIF，动作连贯）*
