@@ -14,9 +14,9 @@
 
 | | | | |
 |---|---|---|---|
-| <img src="assets/cats/orange/idle.gif" width="110" alt="橘橘"> | <img src="assets/cats/white/idle.gif" width="110" alt="奶白"> | <img src="assets/cats/gray/idle.gif" width="110" alt="灰灰"> | <img src="assets/cats/dark/idle.gif" width="110" alt="乌乌"> |
+| <img src="assets/cats/orange/idle.gif" width="150" alt="橘橘"> | <img src="assets/cats/white/idle.gif" width="150" alt="奶白"> | <img src="assets/cats/gray/idle.gif" width="150" alt="灰灰"> | <img src="assets/cats/dark/idle.gif" width="150" alt="乌乌"> |
 | **橘橘** 🍊 · 元气 | **奶白** 🤍 · 温柔 | **灰灰** 🌫️ · 调皮 | **乌乌** 🌙 · 神秘 |
-| <img src="assets/cats/fold/idle.gif" width="110" alt="折折"> | <img src="assets/cats/black/idle.gif" width="110" alt="墨墨"> | <img src="assets/cats/cat7/idle.gif" width="110" alt="绵绵"> | <img src="assets/cats/cat8/idle.gif" width="110" alt="跳跳"> |
+| <img src="assets/cats/fold/idle.gif" width="150" alt="折折"> | <img src="assets/cats/black/idle.gif" width="150" alt="墨墨"> | <img src="assets/cats/cat7/idle.gif" width="150" alt="绵绵"> | <img src="assets/cats/cat8/idle.gif" width="150" alt="跳跳"> |
 | **折折** 🐾 · 乖巧 | **墨墨** 🖤 · 安静 | **绵绵** 🍮 · 软萌 | **跳跳** 🐇 · 活泼 |
 
 </div>
@@ -53,6 +53,48 @@
 ⭐ 认识 7 天啦                      📁 工作记录  重构登录模块
 📁 工作记录  数据面板                📝 深夜工作  改插件到凌晨
 ```
+
+#### 🧠 记忆系统 · 技术设计（重要，别改丢）
+
+**存储位置**：全部在浏览器 `localStorage`，键 `dsh-companion-cat:memory`（本地、不上传服务器）。
+
+**数据模型**：
+
+| 字段 | 内容 | 容量上限 | 更新方式 |
+|---|---|---|---|
+| `firstMet` | 🌱 第一次相遇（日期+猫）| 1 条 | 选猫时自动记录 |
+| `milestones` | ⭐ 里程碑（认识 7/30/100/365 天、陪伴 100/1000 小时）| 天然 ≤6 条 | 自动采集 |
+| `sessions` | 📁 工作记录（DSH 会话标题）| 最近 20 条 | 自动同步，按 id 去重 |
+| `notes` | 📝 提炼出的记忆（`{date, text}`）| **最近 500 条 ≈ 一整年** | AI 提炼（深度陪伴）|
+
+**记忆提炼（extract-memory，node 半）**：
+- 触发：开启深度陪伴后，下次打开页面自动总结**上一次会话**（只提炼你自己输入的内容，不读 assistant 回复）
+- 分段式 prompt：【角色】【任务】【只记什么】【不记什么】【概括重点】【合并要求】【条目格式】【输出格式】【宁缺毋滥】
+- 只记【已发生的事】，不记【想法/建议/疑问/担忧/待办】；同一件事合并成一条
+- 输出 `[{"text":"一句话细节"}]`，最多 4 条，没有就 `[]`
+- 每天最多提炼 1 次（跨午夜会重查），预算 10 次/天
+
+**记忆对话（memory-chat，node 半）**：
+- 输入 = 你的问题 + `packMemory(question)` 按问题挑选的记忆片段
+- **按问题选记忆**（`pickNotesForQuestion`）：
+  - "最深刻/最难忘/一路走来" → 全部记忆（注入时压缩为 最新40 + 最早10）
+  - "一年前/去年/X月X日" → 该日期 ±7 天的记忆（`dateOffsetStr(365)` 定位）
+  - "第一次/刚认识" → 最早的 4 条
+  - "最近/今天/这周" → 近 7 天 + 行为画像统计
+  - 其他 → 最近 4 条
+- **防幻觉**：System 明确"只能基于注入片段回答，不在片段里就说记不清，绝不编造日期/事件"
+- **问题识别门禁**（`gateMemoryQuestion`，零 token）：
+  - 规则拦截明显非记忆问题（数学/计算/代码/翻译/知识问答/"什么是X"）→ 直接引导"这个我不太会，问问我们之间的事吧"
+  - 规则漏网的模糊问题 → LLM 自己判断（prompt 要求非记忆问题直接引导，不尝试解答）
+- 输入限制：问题 ≤60 字（输入框 maxlength + node 端 slice 双保险，实时 0/60 计数）
+- 回答以**问答对**追加显示（你问右对齐 + 它答左对齐，历史保留、自动滚动）
+
+**行为画像（`dsh-companion-cat:profile`，纯规则零 token）**：
+- `lastSeen`：最后打开日期；`lateStreak`：连续晚睡天数（23-5点打开+1，白天清零）；`mood`：7 天情绪计数 `{a:生气, h:开心}`
+- 用途：问候个性化（"你最近都熬到这么晚"）、AI 关怀行为摘要、记忆对话注入近况
+
+**时光面板（📖）**：只显示 🌱 第一次相遇 + ⭐ 里程碑（工作记录不显示）
+**记忆面板（✉️）**：牛皮纸日记背景（透明 PNG），只显示提炼的记忆，内部滚动，每行 `1. 一句话细节`
 
 ### 💰 余额小管家
 - 工具栏 **💰** 一键查询 DeepSeek **API 余额**（官方接口，key 不出服务端）
