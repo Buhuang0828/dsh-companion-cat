@@ -2,7 +2,7 @@
 
 > **请选择你的小猫！** 在 DeepSeek Harness 里，养一只会呼吸、会撒娇、会提醒你休息、会帮你盯余额、**会记住你们时光**的小猫。
 
-一只住在你工作台里的小猫。它会呼吸、伸懒腰、深夜催你睡觉、你烦躁时逗你开心——**还会帮你查 API 余额、设闹钟、记录使用统计，甚至记住你们一起做过的事**。核心陪伴**零 token**；可选开启「深度陪伴」后，它能用 AI 跟你聊天、回忆你们的时光（消耗极少量 token）。
+一只住在你工作台里的小猫。它会呼吸、伸懒腰、深夜催你睡觉、你烦躁时逗你开心——**还会帮你查 API 余额、设闹钟、记录使用统计，甚至记住你们一起做过的事**。打开「深度陪伴」后，它还能用 AI 跟你聊天、回忆你们的时光。
 
 ---
 
@@ -12,16 +12,12 @@
 
 <div align="center">
 
-| | | |
-|---|---|---|
-| <img src="assets/cats/orange/idle.gif" width="130" alt="橘橘"> | <img src="assets/cats/white/idle.gif" width="130" alt="奶白"> | <img src="assets/cats/gray/idle.gif" width="130" alt="灰灰"> |
-| **橘橘** 🍊 · 元气 | **奶白** 🤍 · 温柔 | **灰灰** 🌫️ · 调皮 |
-| <img src="assets/cats/dark/idle.gif" width="130" alt="乌乌"> | <img src="assets/cats/fold/idle.gif" width="150" alt="折折"> | <img src="assets/cats/black/idle.gif" width="130" alt="墨墨"> |
-| **乌乌** 🌙 · 神秘 | **折折** 🐾 · 乖巧 | **墨墨** 🖤 · 安静 |
-| <img src="assets/cats/cat7/idle.gif" width="130" alt="绵绵"> | <img src="assets/cats/cat8/idle.gif" width="130" alt="跳跳"> | |
-| **绵绵** 🍮 · 软萌 | **跳跳** 🐇 · 活泼 | |
-
-*（都是完整待机动画的动态 GIF，动作连贯）*
+| | | | |
+|---|---|---|---|
+| <img src="assets/cats/orange/idle.gif" width="110" alt="橘橘"> | <img src="assets/cats/white/idle.gif" width="110" alt="奶白"> | <img src="assets/cats/gray/idle.gif" width="110" alt="灰灰"> | <img src="assets/cats/dark/idle.gif" width="110" alt="乌乌"> |
+| **橘橘** 🍊 · 元气 | **奶白** 🤍 · 温柔 | **灰灰** 🌫️ · 调皮 | **乌乌** 🌙 · 神秘 |
+| <img src="assets/cats/fold/idle.gif" width="110" alt="折折"> | <img src="assets/cats/black/idle.gif" width="110" alt="墨墨"> | <img src="assets/cats/cat7/idle.gif" width="110" alt="绵绵"> | <img src="assets/cats/cat8/idle.gif" width="110" alt="跳跳"> |
+| **折折** 🐾 · 乖巧 | **墨墨** 🖤 · 安静 | **绵绵** 🍮 · 软萌 | **跳跳** 🐇 · 活泼 |
 
 </div>
 
