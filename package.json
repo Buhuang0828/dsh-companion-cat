@@ -4,6 +4,9 @@
   "description": "🐱 DSH 陪伴小猫：在 DeepSeek Harness 里养一只会呼吸、会撒娇的小猫。3D 弧形选猫（6 只）、余额查询与低余额提醒、闹钟/久坐/深夜提醒、今日统计、森林壁纸，全程零 token 消耗。",
   "type": "module",
   "main": "lib/index.js",
+  "scripts": {
+    "test": "node --test test/"
+  },
   "types": "lib/types/index.d.ts",
   "exports": {
     ".": {
