@@ -18,6 +18,8 @@
 | **橘橘** 🍊 · 元气 | **奶白** 🤍 · 温柔 | **灰灰** 🌫️ · 调皮 |
 | <img src="assets/cats/dark/idle.gif" width="130" alt="乌乌"> | <img src="assets/cats/fold/idle.gif" width="150" alt="折折"> | <img src="assets/cats/black/idle.gif" width="130" alt="墨墨"> |
 | **乌乌** 🌙 · 神秘 | **折折** 🐾 · 乖巧 | **墨墨** 🖤 · 安静 |
+| <img src="assets/cats/cat7/idle.gif" width="130" alt="绵绵"> | <img src="assets/cats/cat8/idle.gif" width="130" alt="跳跳"> | |
+| **绵绵** 🍮 · 软萌 | **跳跳** 🐇 · 活泼 | |
 
 *（都是完整待机动画的动态 GIF，动作连贯）*
 
@@ -58,6 +60,7 @@
 
 ### 💰 余额小管家
 - 工具栏 **💰** 一键查询 DeepSeek **API 余额**（官方接口，key 不出服务端）
+- 余额气泡带 **「去充值 ↗」** 按钮：一键跳到 DeepSeek 官方充值页（新标签页，零 token）
 - **低余额反复提醒**：<5 元每 15 分钟、<3 元每 20 分钟、<1 元每 10 分钟（橙红警示气泡 + 小猫失落 + 30 秒停留）
 - **检查频率随余额自适应**：≥20 元 30 分钟 / 5~20 元 15 分钟 / 1~5 元 3 分钟 / <1 元 45 秒
 - 充值回 5 元以上自动重置提醒
@@ -74,6 +77,7 @@
 - **深夜提醒**：23:00–5:00 打盹催睡，每天一次
 
 ### 🌲 融入背景的壁纸
+- **🏡 多背景选择**：设置 → 背景壁纸 → 点当前背景，3D 弧形展示台挑选（蘑菇屋、猫猫屋…持续补充中），每套背景自动白天/黑夜切换
 - **白天 / 黑夜 / 自适应**三种模式（自适应 = 动态视频，随时间变化）
 - 透明度滑条调节背景蒙版，**文字永远清晰**
 - 消息气泡、思考块、**工具调用卡（Edit/bash 等）**、输入框、统计条都自动加幕布，跟背景呼应
@@ -127,15 +131,19 @@ dsh plugin --profile web add dsh-companion-cat
 dsh-companion-cat/
 ├── package.json          # dsh.client 声明（platform: web）
 ├── assets/
-│   ├── background-day.png    # 白天背景
-│   ├── background-night.png  # 夜晚背景
+│   ├── background-day.png    # 蘑菇屋 白天背景
+│   ├── background-night.png  # 蘑菇屋 夜晚背景
+│   ├── background-cathouse-day.png   # 猫猫屋 白天背景
+│   ├── background-cathouse-night.png # 猫猫屋 夜晚背景
 │   ├── background-live.mp4   # 自适应动态背景（8s = 一天）
 │   └── cats/                 # 每只猫一个文件夹
-│       ├── fold/             # 折折（待机+开心跳）
-│       ├── gray/             # 灰灰（待机）
-│       ├── orange/           # 橘橘（全套动作）
-│       ├── white/            # 奶白（待机）
-│       ├── dark/             # 乌乌（待机）
+│       ├── fold/             # 折折（待机+开心跳+失落低头+惊吓）
+│       ├── gray/             # 灰灰（全套 10 个动作，含点击高兴）
+│       ├── orange/           # 橘橘（全套 9 个动作）
+│       ├── cat7/             # 绵绵（8 个动作，含点击高兴）
+│       ├── cat8/             # 跳跳（5 个动作，含蹭手/舔爪爪）
+│       ├── white/            # 奶白（待机+开心跳+庆祝举手+思考+失落低头+打盹）
+│       ├── dark/             # 乌乌（待机+开心跳+惊吓+伸懒腰+趴睡+追尾巴）
 │       └── black/            # 墨墨（9 个动作，含点击高兴）
 └── lib/
     ├── index.js          # node 半：静态路由 + balance/tokens/sessions/memory-chat/extract-memory API
