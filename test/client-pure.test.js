@@ -192,29 +192,29 @@ test("backingFactor：衬底系数 0..100 → 1..0", () => {
  * ------------------------------------------------------------------ */
 
 test("wallpaperForNow 显式 day/night 模式", () => {
-  assert.equal(T.wallpaperForNow("day", "mushroom"), "/companion-pet/assets/background-day.png");
-  assert.equal(T.wallpaperForNow("night", "mushroom"), "/companion-pet/assets/background-night.png");
+  assert.equal(T.wallpaperForNow("day", "mushroom"), "/companion-pet/assets/background-day.jpg");
+  assert.equal(T.wallpaperForNow("night", "mushroom"), "/companion-pet/assets/background-night.jpg");
   assert.equal(T.wallpaperForNow("day", "cathouse"), "/companion-pet/assets/background-cathouse-day.png");
   assert.equal(T.wallpaperForNow("night", "cathouse"), "/companion-pet/assets/background-cathouse-night.png");
 });
 
 test("wallpaperForNow 未知背景回退蘑菇屋", () => {
-  assert.equal(T.wallpaperForNow("day", "nope"), "/companion-pet/assets/background-day.png");
+  assert.equal(T.wallpaperForNow("day", "nope"), "/companion-pet/assets/background-day.jpg");
 });
 
 test("wallpaperForNow auto 模式按时钟选图（6:00–18:59 为白天）", () => {
   setClock("2026-08-24T10:00:00");
-  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-day.png");
+  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-day.jpg");
   setClock("2026-08-24T23:30:00");
-  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-night.png");
+  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-night.jpg");
   setClock("2026-08-24T05:59:00");
-  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-night.png");
+  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-night.jpg");
   setClock("2026-08-24T06:00:00");
-  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-day.png");
+  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-day.jpg");
   setClock("2026-08-24T18:59:00");
-  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-day.png");
+  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-day.jpg");
   setClock("2026-08-24T19:00:00");
-  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-night.png");
+  assert.equal(T.wallpaperForNow("auto", "mushroom"), "/companion-pet/assets/background-night.jpg");
 });
 
 /* ------------------------------------------------------------------ *

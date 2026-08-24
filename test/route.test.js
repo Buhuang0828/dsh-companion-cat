@@ -595,9 +595,9 @@ test("assets 正常文件 → 200 + 正确 MIME + Content-Length + Cache-Control
   assert.equal(r.headers["Cache-Control"], "no-cache");
   assert.equal(r.bytes.length, real.size);
 
-  const r2 = await assetCall(app, `${ASSET_PREFIX}/background-day.png`);
+  const r2 = await assetCall(app, `${ASSET_PREFIX}/background-day.jpg`);
   assert.equal(r2.statusCode, 200);
-  assert.equal(r2.headers["Content-Type"], "image/png");
+  assert.equal(r2.headers["Content-Type"], "image/jpeg");
 });
 
 test("assets 路径穿越（%2e%2e 编码点段）→ 403", async () => {

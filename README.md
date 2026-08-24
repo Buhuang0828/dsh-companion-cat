@@ -16,7 +16,7 @@
 |---|---|---|---|
 | <img src="assets/cats/orange/idle.gif" width="150" alt="橘橘"> | <img src="assets/cats/white/idle.gif" width="150" alt="奶白"> | <img src="assets/cats/gray/idle.gif" width="150" alt="灰灰"> | <img src="assets/cats/dark/idle.gif" width="150" alt="乌乌"> |
 | **橘橘** 🍊 · 元气 | **奶白** 🤍 · 温柔 | **灰灰** 🌫️ · 调皮 | **乌乌** 🌙 · 神秘 |
-| <img src="assets/cats/fold/idle.gif" width="150" alt="折折"> | <img src="assets/cats/black/idle.gif" width="150" alt="墨墨"> | <img src="assets/cats/cat7/idle.gif" width="150" alt="绵绵"> | <img src="assets/cats/cat8/idle.gif" width="150" alt="跳跳"> |
+| <img src="assets/cats/fold/idle.gif" width="150" alt="折折"> | <img src="assets/cats/black/idle.gif" width="150" alt="墨墨"> | <img src="assets/cats/mianmian/idle.gif" width="150" alt="绵绵"> | <img src="assets/cats/tiaotiao/idle.gif" width="150" alt="跳跳"> |
 | **折折** 🐾 · 乖巧 | **墨墨** 🖤 · 安静 | **绵绵** 🍮 · 软萌 | **跳跳** 🐇 · 活泼 |
 
 </div>
@@ -105,7 +105,7 @@
 
 ### 📊 数据面板
 - **今日统计**：活跃在线时长（只有你真正操作 DSH 才算，空闲 2 分钟暂停）+ 对话轮数（快照计数，不虚增）+ 按 token 细分的花费
-- **近 7 天面板**：KPI 指标卡（总时长/轮数/Token/花费）+ 每日柱状图/折线图（带数值）+ **会话花费排行**（哪个会话最烧钱）
+- **近 7 天面板**（暂不可用）：KPI 指标卡 + 每日柱状图/折线图 + **会话花费排行** —— 图表数据正在修复中，按钮暂时置灰
 - **花费官方口径**：通过余额差值记录真实消耗（和 DeepSeek 官方一致），不是估算
 - 次日首次打开小猫汇报昨日战绩
 
@@ -119,6 +119,11 @@
 - **白天 / 黑夜 / 自适应**三种模式（自适应 = 动态视频，随时间变化）
 - 透明度滑条调节背景蒙版，**文字永远清晰**
 - 消息气泡、思考块、**工具调用卡（Edit/bash 等）**、输入框、统计条都自动加幕布，跟背景呼应
+
+<div align="center">
+  <img src="assets/showcase-cathouse-day.png" width="48%" alt="猫猫屋 白天">　<img src="assets/showcase-cathouse-night.png" width="48%" alt="猫猫屋 夜晚">
+  <br><sub>猫猫屋 · 白天 / 夜晚（自动切换）</sub>
+</div>
 
 ### 💬 会关心你的小猫
 - **情绪感知**：输入框里出现"烦死了 / 气死 / 崩溃" → 猫吓一跳再安慰你；"开心 / 太棒" → 陪你开心（支持感叹号加权）
@@ -144,14 +149,46 @@
 
 ---
 
-## 📦 安装
+## 🧪 测试
+
+核心逻辑（记忆选摘、问题识别门禁、跨午夜在线统计、画像、余额记账、API 路由、预算限制等）有 **200 个单元测试**兜底：
 
 ```bash
-# 在 profile 目录下安装
-dsh plugin --profile web add dsh-companion-cat
+npm test          # 或: node --test test/
 ```
 
-或者在 `$DSH_HOME/profiles/web/cordis.patch.yml` 中加入：
+覆盖：node 半（问题识别/提炼/记忆对话/余额/会话统计/API 路由）与 browser 半（壁纸/日期/节日/格式化/画像/记忆/跨午夜统计）的纯逻辑。改代码后跑一遍即可确认没弄坏东西。
+
+---
+
+## 📦 安装
+
+### 方式 1：GitHub 仓库直接安装（推荐，最方便）
+
+把仓库地址"发给 dsh"即可自动 clone + 安装（DSH 原生支持 git 源插件，本项目纯静态无需构建）：
+
+```bash
+dsh plugin --profile web add github:你的用户名/dsh-companion-cat
+# 也可以带版本/tag：github:你的用户名/dsh-companion-cat#v1.0.0
+```
+
+DSH 会自动从 GitHub clone 仓库并链接进 profile 的 node_modules，然后重启 `dsh web` 就装好了。以后更新只需 `dsh plugin update`（或重新 add）。
+
+### 方式 2：下载 ZIP + 本地目录安装
+
+1. 在 GitHub 仓库页点 **Code → Download ZIP**，解压到任意目录（如 `D:\plugins\dsh-companion-cat`）
+2. 在 DSH profile 目录下执行：
+
+```bash
+cd $DSH_HOME/profiles/web        # Windows: C:\Users\<你>\.dsh\profiles\web
+dsh plugin --profile web add ./dsh-companion-cat   # 指向你解压的文件夹
+```
+
+`dsh plugin add` 会像 pnpm 一样把本地目录链接进 profile 的 node_modules（Windows 下是 junction，Linux/macOS 是 symlink），改代码即时生效。
+
+### 方式 3：`cordis.patch.yml` 手动注册（不依赖 CLI）
+
+把插件目录放进 profile 的 node_modules（或创建符号链接），然后在 `$DSH_HOME/profiles/web/cordis.patch.yml` 加：
 
 ```yaml
 - insert:
@@ -159,7 +196,19 @@ dsh plugin --profile web add dsh-companion-cat
       name: dsh-companion-cat
 ```
 
-重启 `dsh web`，刷新页面，小猫就来了。（余额/token/Agent 功能需要 node 半生效，务必重启一次。）
+重启 `dsh web` 即生效。（`id` 必须与 `package.json` 的 `name` 一致。）
+
+### 方式 4：npm 包安装（插件发布到 npm 后）
+
+```bash
+dsh plugin --profile web add dsh-companion-cat
+```
+
+---
+
+**安装后**：重启 `dsh web`（node 半生效），刷新页面，小猫就来了。
+
+> 💡 **提示**：余额查询、token 统计、记忆对话等 node 半功能**必须重启 `dsh web`**（不是刷新页面）；纯 browser 半的改动（动画、壁纸、面板）刷新即可。
 
 ---
 
@@ -169,23 +218,30 @@ dsh plugin --profile web add dsh-companion-cat
 dsh-companion-cat/
 ├── package.json          # dsh.client 声明（platform: web）
 ├── assets/
-│   ├── background-day.png    # 蘑菇屋 白天背景
-│   ├── background-night.png  # 蘑菇屋 夜晚背景
+│   ├── background-day.jpg    # 蘑菇屋 白天背景
+│   ├── background-night.jpg  # 蘑菇屋 夜晚背景
 │   ├── background-cathouse-day.png   # 猫猫屋 白天背景
 │   ├── background-cathouse-night.png # 猫猫屋 夜晚背景
 │   ├── background-live.mp4   # 自适应动态背景（8s = 一天）
+│   ├── paper-kraft.png       # 记忆面板的牛皮纸背景（透明）
 │   └── cats/                 # 每只猫一个文件夹
 │       ├── fold/             # 折折（待机+开心跳+失落低头+惊吓）
 │       ├── gray/             # 灰灰（全套 10 个动作，含点击高兴）
 │       ├── orange/           # 橘橘（全套 9 个动作）
-│       ├── cat7/             # 绵绵（8 个动作，含点击高兴）
-│       ├── cat8/             # 跳跳（5 个动作，含蹭手/舔爪爪）
+│       ├── mianmian/          # 绵绵（8 个动作，含点击高兴）
+│       ├── tiaotiao/          # 跳跳（5 个动作，含蹭手/舔爪爪）
 │       ├── white/            # 奶白（待机+开心跳+庆祝举手+思考+失落低头+打盹）
 │       ├── dark/             # 乌乌（待机+开心跳+惊吓+伸懒腰+趴睡+追尾巴）
 │       └── black/            # 墨墨（9 个动作，含点击高兴）
-└── lib/
-    ├── index.js          # node 半：静态路由 + balance/tokens/sessions/memory-chat/extract-memory API
-    └── client.js         # 浏览器半：小猫本体 + 记忆系统 + 统计 + 全部功能
+├── lib/
+│   ├── index.js          # node 半：静态路由 + balance/tokens/sessions/memory-chat/extract-memory API
+│   └── client.js         # 浏览器半：小猫本体 + 记忆系统 + 统计 + 全部功能
+└── test/                 # 单元测试（node:test，零依赖）
+    ├── index.test.js     # node 半纯逻辑
+    ├── node-funcs.test.js# node 半函数
+    ├── route.test.js     # API 路由集成
+    ├── client-pure.test.js # browser 半纯逻辑
+    └── client-more.test.js # browser 半补充
 ```
 
 **想加一只新猫？** 把它的透明 GIF 放进 `assets/cats/<name>/`（命名 `idle.gif`、`happy.gif`…），再在 `lib/client.js` 的 `CATS` 表里加一行（名字、气泡色、性格 persona）即可；缺失的动作自动回退到待机。
