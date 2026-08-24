@@ -18,10 +18,10 @@
 </div>
 
 - **3D 弧形展示台选猫**：小猫沿弧线排开，中间最大最亮；按键旋转、随机扫一圈礼花收尾，点「选它」才生效，名字可改
-- **每只猫有专属动作**：灰灰会点击高兴、乌乌会追尾巴、跳跳会蹭手舔爪爪……点 ✦ 看技能菜单（只显示它会的那几招）
+- **每只猫有专属动作**：灰灰会点击高兴、乌乌会追尾巴、跳跳会蹭手舔爪爪……点 ✦ 看技能菜单
 - 点击小猫随机施展技能；每 10-15 分钟自己伸懒腰/打盹，有生活节奏
 - 拖动小猫放到屏幕任何位置（它记住）
-- 🚧 **开发中**：小猫动作还在持续补充完善，后续会为每只猫增加更多动作
+- 🚧 **开发中**：小猫动作还在持续补充完善，后续会为每只猫猫增加更多动作
 
 ---
 
@@ -33,7 +33,7 @@
 </div>
 
 - **多背景选择**：设置 → 背景壁纸 → 3D 弧形展示台挑选（蘑菇屋、猫猫屋…持续补充），每套自动白天/黑夜切换
-- **白天 / 黑夜 / 自适应**三种模式：固定"白天"或"黑夜"，或**自适应**——早上 6 点切白天、晚上 7 点切黑夜（蘑菇屋的自适应还会播放 8 秒循环的动态视频，随时间平滑变化）
+- **白天 / 黑夜 / 自适应**三种模式：固定"白天"或"黑夜"，或**自适应**——早上 6 点切白天、晚上 7 点切黑夜
 - 透明度滑条调节背景蒙版，**文字永远清晰**
 - 消息气泡、思考块、工具调用卡、输入框、统计条都自动加幕布，跟背景呼应
 
@@ -79,8 +79,7 @@
 把仓库地址"发给 dsh"即可自动安装（纯静态、无需构建）：
 
 ```bash
-dsh plugin --profile web add github:你的用户名/dsh-companion-cat
-# 带版本：github:你的用户名/dsh-companion-cat#v1.0.0
+dsh plugin --profile web add github:Buhuang0828/dsh-companion-cat
 ```
 
 重启 `dsh web` 即生效，以后 `dsh plugin update` 更新。
@@ -93,12 +92,6 @@ dsh plugin --profile web add github:你的用户名/dsh-companion-cat
 ```bash
 cd $DSH_HOME/profiles/web        # Windows: C:\Users\<你>\.dsh\profiles\web
 dsh plugin --profile web add ./dsh-companion-cat   # 指向解压的文件夹
-```
-
-### 方式 3：npm 包安装（发布到 npm 后）
-
-```bash
-dsh plugin --profile web add dsh-companion-cat
 ```
 
 > 💡 **注意**：余额/token/记忆对话等 node 半功能**必须重启 `dsh web`**；纯前端改动（动画、壁纸）刷新即可。
@@ -150,13 +143,14 @@ dsh-companion-cat/
 └── test/                 # 单元测试（node:test，零依赖）
 ```
 
-**想加一只新猫？** 把透明 GIF 放进 `assets/cats/<name>/`（命名 `idle.gif`、`happy.gif`…），在 `lib/client.js` 的 `CATS` 表加一行即可；缺失的动作自动回退到待机。
+🚧 **想加一只新猫？** 目前手动加猫需要：把透明 GIF 放进 `assets/cats/<name>/`（命名 `idle.gif`、`happy.gif`…），并在 `lib/client.js` 的 `CATS` 表配置动作/尺寸/性格。**「配置化加猫」功能待开发**——后续会支持免改代码添加新猫。
 
 ---
 
 ## 📄 License
 
-MIT
+- **代码**：MIT（见 [LICENSE](./LICENSE)）
+- **小猫图片/动图、背景图**（`assets/`）：AI 生成资源，**可以自由使用，但不可商用、不可二次分发**
 
 ---
 
