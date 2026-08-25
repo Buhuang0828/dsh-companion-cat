@@ -81,17 +81,29 @@
 
 ## 📦 安装
 
-### 方式 1：GitHub 仓库直接安装（推荐）
+### 方式 1：npm 一行命令（推荐）
 
-把仓库地址"发给 dsh"即可自动安装（纯静态、无需构建）：
+已发布到 npm，直接安装（纯静态、无需构建）：
+
+```bash
+dsh plugin --profile web add dsh-companion-cat
+```
+
+重启 `dsh web` 即生效，以后更新：
+
+```bash
+dsh plugin --profile web update dsh-companion-cat
+```
+
+### 方式 2：GitHub 仓库直接安装
+
+把仓库地址"发给 dsh"即可自动安装：
 
 ```bash
 dsh plugin --profile web add github:Buhuang0828/dsh-companion-cat
 ```
 
-重启 `dsh web` 即生效，以后 `dsh plugin update` 更新。
-
-### 方式 2：下载 ZIP + 本地目录安装
+### 方式 3：下载 ZIP + 本地目录安装
 
 1. GitHub 点 **Code → Download ZIP**，解压到任意目录
 2. 在 DSH profile 目录下执行：
