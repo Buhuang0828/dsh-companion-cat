@@ -533,8 +533,8 @@ test("sessionCost：缺桶按 0 计", () => {
 test("actionsFor：idle 恒在，click 按 hasClick", () => {
   const out = T.actionsFor({ dir: "/cats/x", acts: [], hasClick: true });
   assert.deepEqual(Object.keys(out), ["idle", "click"]);
-  assert.deepEqual(out.idle, { url: "/cats/x/idle.gif", h: 203, dur: 8100, aScale: 1 });
-  assert.deepEqual(out.click, { url: "/cats/x/click.gif", h: 269, dur: 8100, aScale: 1 });
+  assert.deepEqual(out.idle, { url: "/cats/x/idle.gif", h: 203, dur: 8700, aScale: 1 });
+  assert.deepEqual(out.click, { url: "/cats/x/click.gif", h: 269, dur: 8700, aScale: 1 });
 });
 
 test("actionsFor：只生成 acts 里的动作，未知动作跳过", () => {
@@ -542,6 +542,7 @@ test("actionsFor：只生成 acts 里的动作，未知动作跳过", () => {
   assert.deepEqual(Object.keys(out).sort(), ["happy", "idle", "walk"]);
   assert.equal(out.happy.url, "/cats/x/happy.gif");
   assert.equal(out.happy.h, 259);
+  assert.equal(out.happy.dur, 9300); // 无真实 cat 引用 → 按 fold 时长表 (fold:happy=8700)+600
   assert.equal(out.walk.h, 261);
 });
 
