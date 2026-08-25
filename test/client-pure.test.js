@@ -77,7 +77,6 @@ const K = {
   daily: "dsh-companion-cat:daily",
   balSnap: "dsh-companion-cat:bal-snap",
   inputsByDay: "dsh-companion-cat:inputs-by-day",
-  autoExtract: "dsh-companion-cat:auto-extract",
   memClean: "dsh-companion-cat:mem-clean-v3",
 };
 
@@ -196,6 +195,10 @@ test("wallpaperForNow 显式 day/night 模式", () => {
   assert.equal(T.wallpaperForNow("night", "mushroom"), "/companion-pet/assets/background-night.jpg");
   assert.equal(T.wallpaperForNow("day", "cathouse"), "/companion-pet/assets/background-cathouse-day.png");
   assert.equal(T.wallpaperForNow("night", "cathouse"), "/companion-pet/assets/background-cathouse-night.png");
+  assert.equal(T.wallpaperForNow("day", "skyhouse"), "/companion-pet/assets/background-skyhouse-day.png");
+  assert.equal(T.wallpaperForNow("night", "skyhouse"), "/companion-pet/assets/background-skyhouse-night.png");
+  assert.equal(T.wallpaperForNow("day", "cabin"), "/companion-pet/assets/background-cabin-day.png");
+  assert.equal(T.wallpaperForNow("night", "cabin"), "/companion-pet/assets/background-cabin-night.png");
 });
 
 test("wallpaperForNow 未知背景回退蘑菇屋", () => {
@@ -639,7 +642,7 @@ test("weekActivity：只统计近 7 天互动", () => {
 });
 
 /* ------------------------------------------------------------------ *
- * maybeAutoExtract — 下次打开压缩最旧未压缩的一天
+ * maybeAutoExtract — 下次打开总结"上一次使用那天"（今天之前最近一天）
  * ------------------------------------------------------------------ */
 
 test("maybeAutoExtract：未开启深度陪伴时直接返回", () => {
@@ -652,7 +655,7 @@ test("maybeAutoExtract：未开启深度陪伴时直接返回", () => {
   }
 });
 
-test("maybeAutoExtract：无候选日（今天之前且未压缩）不调度", () => {
+test("maybeAutoExtract：无候选日（今天之前）不调度", () => {
   seed(K.cfg, { deepCompanion: true });
   T.writeInputsByDay({ "2026-08-24": ["x"] }); // 只有今天 → 无候选
   const sched = captureSetTimeout();
@@ -664,7 +667,7 @@ test("maybeAutoExtract：无候选日（今天之前且未压缩）不调度", (
   }
 });
 
-test("maybeAutoExtract：选择最旧未压缩日并调度压缩（12000ms）", async () => {
+test("maybeAutoExtract：选择最近一次使用日并调度提炼（12000ms）", async () => {
   seed(K.cfg, { deepCompanion: true });
   T.writeInputsByDay({
     "2026-08-21": ["j1", "j2", "j3", "j4", "j5"],
@@ -681,31 +684,65 @@ test("maybeAutoExtract：选择最旧未压缩日并调度压缩（12000ms）", 
     T.maybeAutoExtract();
     assert.equal(sched.calls, 1);
     assert.equal(sched.ms, 12000);
-    await sched.fn(); // 触发压缩回调
+    await sched.fn(); // 触发提炼回调
     assert.equal(fetches.length, 1);
     assert.equal(fetches[0].url, "/companion-pet/api/extract-memory");
     const body = JSON.parse(fetches[0].opts.body);
-    assert.deepEqual(body.inputs, ["i1", "i2", "i3", "i4", "i5"]); // 最旧的 2026-08-20
-    assert.match(body.timeSpan, /2026-08-20/);
+    assert.deepEqual(body.inputs, ["j1", "j2", "j3", "j4", "j5"]); // 最近的 2026-08-21
+    assert.match(body.timeSpan, /2026-08-21/);
   } finally {
     restoreSetTimeout();
     globalThis.fetch = realFetch;
   }
 });
 
-test("maybeAutoExtract：已压缩标记之后的日子跳过", () => {
+test("maybeAutoExtract：提炼空结果时删除该天输入桶，下次轮到更早一天", async () => {
   seed(K.cfg, { deepCompanion: true });
-  localStorage.setItem(K.autoExtract, "2026-08-19");
   T.writeInputsByDay({
+    "2026-08-21": ["j1", "j2", "j3", "j4", "j5"],
     "2026-08-20": ["i1", "i2", "i3", "i4", "i5"],
-    "2026-08-18": ["h1", "h2", "h3", "h4", "h5"],
   });
   const sched = captureSetTimeout();
+  const fetches = [];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    fetches.push(1);
+    return { json: async () => ({ ok: false, error: "empty" }) }; // 空结果
+  };
   try {
     T.maybeAutoExtract();
-    assert.equal(sched.calls, 1); // 2026-08-18 已 <= done，只有 08-20 是候选
+    await sched.fn();
+    for (let i = 0; i < 6; i++) await Promise.resolve(); // 等 fetch 的 .then 链跑完
+    assert.equal(fetches.length, 1);
+    const map = JSON.parse(localStorage.getItem(K.inputsByDay));
+    assert.equal(map["2026-08-21"], undefined); // 最近一天已删除
+    assert.ok(map["2026-08-20"]); // 更早的一天保留，下次打开轮到它
   } finally {
     restoreSetTimeout();
+    globalThis.fetch = realFetch;
+  }
+});
+
+test("maybeAutoExtract：提炼失败（非 empty）时保留该天输入桶，下次重试", async () => {
+  seed(K.cfg, { deepCompanion: true });
+  T.writeInputsByDay({ "2026-08-21": ["j1", "j2", "j3", "j4", "j5"] });
+  const sched = captureSetTimeout();
+  const fetches = [];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    fetches.push(1);
+    return { json: async () => ({ ok: false, error: "extract-failed" }) }; // 失败
+  };
+  try {
+    T.maybeAutoExtract();
+    await sched.fn();
+    for (let i = 0; i < 6; i++) await Promise.resolve();
+    assert.equal(fetches.length, 1);
+    const map = JSON.parse(localStorage.getItem(K.inputsByDay));
+    assert.ok(map["2026-08-21"]); // 保留，下次打开再试，不丢数据
+  } finally {
+    restoreSetTimeout();
+    globalThis.fetch = realFetch;
   }
 });
 
