@@ -79,7 +79,15 @@
 
 ---
 
-## 📦 安装
+## 📦 安装与卸载
+
+### 前置要求
+
+已安装 [Node.js](https://nodejs.org/)（自带 npm）和 pnpm：
+
+```bash
+npm install -g pnpm
+```
 
 ### 方式 1：npm 一行命令（推荐）
 
@@ -89,15 +97,7 @@
 dsh plugin --profile web add dsh-companion-cat
 ```
 
-重启 `dsh web` 即生效，以后更新：
-
-```bash
-dsh plugin --profile web update dsh-companion-cat
-```
-
 ### 方式 2：GitHub 仓库直接安装
-
-把仓库地址"发给 dsh"即可自动安装：
 
 ```bash
 dsh plugin --profile web add github:Buhuang0828/dsh-companion-cat
@@ -113,7 +113,20 @@ cd $DSH_HOME/profiles/web        # Windows: C:\Users\<你>\.dsh\profiles\web
 dsh plugin --profile web add ./dsh-companion-cat   # 指向解压的文件夹
 ```
 
+### 生效、更新、卸载
+
+```bash
+dsh web                                    # 安装后重启生效
+dsh plugin --profile web update dsh-companion-cat    # 更新
+dsh plugin --profile web remove dsh-companion-cat    # 卸载
+```
+
 > 💡 **注意**：余额/token/记忆对话等 node 半功能**必须重启 `dsh web`**；纯前端改动（动画、壁纸）刷新即可。
+>
+> 🔒 **数据说明**：小猫配置、记忆、统计都存在**浏览器本地**（localStorage，峰值约 0.5MB），卸载不会丢失，重装回来还在；想彻底清空，在页面按 `Ctrl+Shift+J` 打开控制台执行：
+> ```js
+> Object.keys(localStorage).filter(k => k.startsWith("dsh-companion-cat") || k.startsWith("companion-pet")).forEach(k => localStorage.removeItem(k)); location.reload();
+> ```
 
 ---
 
@@ -149,7 +162,8 @@ dsh plugin --profile web add ./dsh-companion-cat   # 指向解压的文件夹
 
 ```
 dsh-companion-cat/
-├── package.json          # dsh.client 声明（platform: web）
+├── package.json          # dsh.bundle + dsh.client 声明（platform: web）
+├── cordis.patch.yml      # 插件加载配置（dsh 通过它把插件挂进 loader 树）
 ├── assets/
 │   ├── background-*.jpg/png  # 各套背景（蘑菇屋 / 猫猫屋 / 天空屋 / 小木屋，白天+夜晚）
 │   ├── background-live.mp4   # 自适应动态背景（8s = 一天）

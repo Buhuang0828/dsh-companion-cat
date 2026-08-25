@@ -1,6 +1,6 @@
 {
   "name": "dsh-companion-cat",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "🐱 DSH 陪伴小猫：在 DeepSeek Harness 里养一只会呼吸、会撒娇、会记住你们时光的小猫。8 只小猫 3D 弧形选猫、记忆系统（我们的时光 + 按天记忆提炼）、余额查询与低余额提醒、闹钟/久坐/深夜提醒、每日统计、多背景壁纸、情绪陪伴——核心功能零 token，可选深度陪伴（AI 对话）。",
   "type": "module",
   "main": "lib/index.js",
@@ -20,6 +20,9 @@
     "./package.json": "./package.json"
   },
   "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "inject": [],
       "platform": "web"
@@ -27,7 +30,8 @@
   },
   "files": [
     "lib",
-    "assets"
+    "assets",
+    "cordis.patch.yml"
   ],
   "keywords": [
     "deepseek-harness",
