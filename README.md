@@ -166,7 +166,6 @@ dsh-companion-cat/
 ├── cordis.patch.yml      # 插件加载配置（dsh 通过它把插件挂进 loader 树）
 ├── assets/
 │   ├── background-*.jpg/png  # 各套背景（蘑菇屋 / 猫猫屋 / 天空屋 / 小木屋，白天+夜晚）
-│   ├── background-live.mp4   # 自适应动态背景（8s = 一天）
 │   ├── showcase-*.png        # README 展示图
 │   ├── paper-kraft.png       # 记忆面板的牛皮纸背景（透明）
 │   └── cats/                 # 每只猫一个文件夹（8 只）
